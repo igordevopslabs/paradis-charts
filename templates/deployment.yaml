@@ -25,12 +25,10 @@ spec:
           command: {{ .Values.container.command }}
           {{- end }}
           imagePullPolicy: {{ .Values.container.image.pullPolicy }}
-          {{- if .Values.containerPort}}
           ports:
             - name: http
-              containerPort: {{ .Values.container.port }}
+              containerPort: {{ .Values.container.port | default 9000  }}
               protocol: TCP
-          {{- end }}
           resources:
             {{- toYaml .Values.container.resources | nindent 10 }}
 {{- end }}
