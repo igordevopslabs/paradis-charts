@@ -25,7 +25,7 @@ spec:
           command: {{ .Values.container.command }}
           {{- end }}
           imagePullPolicy: {{ .Values.container.image.pullPolicy }}
-          {{- if .containerPort}}
+          {{- if .Values.containerPort}}
           ports:
             - name: http
               containerPort: {{ .Values.container.port }}
