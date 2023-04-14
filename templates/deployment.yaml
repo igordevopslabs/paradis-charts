@@ -6,7 +6,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "paradisApp.helmLabels" . | nindent 4 }}
-    {{- include "paradis.labels" . | nindent 4 }}
   annotations:
 {{ toYaml .Values.deploymentAnnotations | indent 8 }}
 spec:
