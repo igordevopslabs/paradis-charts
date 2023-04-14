@@ -1,0 +1,36 @@
+{{- if .Values.createDeployment }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "paradisApp.helmLabels" . | nindent 4 }}
+    {{- include "paradis.labels" . | nindent 4 }}
+  annotations:
+{{ toYaml .Values.deploymentAnnotations | indent 8 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "paradisApp.helmLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "paradisApp.helmLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.container.image.repository }}:{{ .Values.container.image.tag | default .Chart.AppVersion }}"
+          {{- if .Values.containerCommand }}
+          command: {{ .Values.container.command }}
+          {{- end }}
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          {{- if .containerPort}}
+          ports:
+            - name: http
+              containerPort: {{ .Values.container.port }}
+              protocol: TCP
+          {{- end }}
+          resources:
+            {{- toYaml .Values.container.resources | nindent 12 }}
