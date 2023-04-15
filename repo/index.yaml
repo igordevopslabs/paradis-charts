@@ -9,7 +9,7 @@ entries:
     appVersion: 1.0.0
     keywords:
       - devops
-      - labs
+      - labss
     sources:
       - https://github.com/igordevopslabs/paradis-charts
 
